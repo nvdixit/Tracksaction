@@ -39,12 +39,15 @@ public class CreditCardManager {
 	public CreditCard removeCreditCard(CreditCard card) {
 		Iterator<CreditCard> it = creditCards.iterator();
 		
+		int index = 0;
 		while(it.hasNext()) {
 			CreditCard c = it.next();
 			
 			if(card.equals(c)) {
-				return c;
+				return creditCards.remove(index);
 			}
+			
+			index++;
 		}
 		
 		return null;

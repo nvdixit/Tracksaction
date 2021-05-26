@@ -58,11 +58,15 @@ public class CreditCard {
 	public Transaction removeTransaction(Transaction transaction) {
 		Iterator<Transaction> it = transactions.iterator();
 		
+		int index = 0;
 		while(it.hasNext()) {
 			Transaction t = it.next();
+			
 			if(t.equals(transaction)) {
-				return t;
+				return transactions.remove(index);
 			}
+			
+			index++;
 		}
 		
 		return null;
