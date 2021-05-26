@@ -72,6 +72,7 @@ public class Transaction implements Comparable<Transaction> {
 		this.dateOfTransaction = dateOfTransaction;
 	}
 	
+	
 	@Override
 	public int compareTo(Transaction o) {
 		
@@ -90,5 +91,41 @@ public class Transaction implements Comparable<Transaction> {
 		}
 		
 		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(amount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((dateOfTransaction == null) ? 0 : dateOfTransaction.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Transaction other = (Transaction) obj;
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+			return false;
+		if (dateOfTransaction == null) {
+			if (other.dateOfTransaction != null)
+				return false;
+		} else if (!dateOfTransaction.equals(other.dateOfTransaction))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 }
