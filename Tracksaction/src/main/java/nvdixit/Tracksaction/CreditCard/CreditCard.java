@@ -72,6 +72,22 @@ public class CreditCard {
 		return null;
 	}
 
+	/**
+	 * Returns a String instance of the CreditCard
+	 * @return a String instance of the CreditCard
+	 */
+	public String toString() {
+		StringBuilder sb = new StringBuilder(this.getName() + "\n");
+		
+		Iterator<Transaction> it = transactions.iterator();
+		
+		while(it.hasNext()) {
+			sb.append("\t" + it.next().toString() + "\n");
+		}
+		
+		return sb.toString();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

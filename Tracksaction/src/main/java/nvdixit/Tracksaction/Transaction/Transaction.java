@@ -13,13 +13,10 @@ public class Transaction implements Comparable<Transaction> {
 	private String name;
 	/** The amount of the transaction */
 	private double amount;
-	/** The date of the transaction */
-	private LocalDate dateOfTransaction;
 
-	public Transaction(String name, double amount, LocalDate dateOfTransaction) {
+	public Transaction(String name, double amount) {
 		this.setName(name);
 		this.setAmount(amount);
-		this.setDateOfTransaction(dateOfTransaction);
 	}
 	
 	/**
@@ -53,33 +50,10 @@ public class Transaction implements Comparable<Transaction> {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
-	/**
-	 * Returns the date of the transaction
-	 * @return the date of the transaction
-	 */
-	public LocalDate getDateOfTransaction() {
-		return dateOfTransaction;
-	}
-
-	/**
-	 * Sets the date of the Transaction
-	 * @param dateOfTransaction the date to set
-	 */
-	public void setDateOfTransaction(LocalDate dateOfTransaction) {
-		this.dateOfTransaction = dateOfTransaction;
-	}
 	
 	
 	@Override
 	public int compareTo(Transaction o) {
-		
-		if(this.dateOfTransaction.compareTo(o.dateOfTransaction) < 0) {
-			return -1;
-		}
-		else if(this.dateOfTransaction.compareTo(o.dateOfTransaction) > 0) {
-			return 1;
-		}
 		
 		if(this.amount < o.amount) {
 			return -1;
@@ -91,6 +65,14 @@ public class Transaction implements Comparable<Transaction> {
 		return 0;
 	}
 
+	/**
+	 * Returns a String of the Transaction
+	 * @return a String of the Transaction
+	 */
+	public String toString() {
+		return "\t" + this.getName() + " " + this.getAmount();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -98,7 +80,6 @@ public class Transaction implements Comparable<Transaction> {
 		long temp;
 		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((dateOfTransaction == null) ? 0 : dateOfTransaction.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -113,11 +94,6 @@ public class Transaction implements Comparable<Transaction> {
 			return false;
 		Transaction other = (Transaction) obj;
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
-			return false;
-		if (dateOfTransaction == null) {
-			if (other.dateOfTransaction != null)
-				return false;
-		} else if (!dateOfTransaction.equals(other.dateOfTransaction))
 			return false;
 		if (name == null) {
 			if (other.name != null)

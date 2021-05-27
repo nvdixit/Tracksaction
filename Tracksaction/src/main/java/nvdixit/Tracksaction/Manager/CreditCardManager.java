@@ -80,4 +80,16 @@ public class CreditCardManager {
 		
 		return null;
 	}
+	
+	public String toString() {
+		Iterator<CreditCard> it = creditCards.iterator();
+		
+		StringBuilder sb = new StringBuilder("Manager\n");
+		
+		while(it.hasNext()) {
+			sb.append("\t" + it.next().toString() + "\n");
+		}
+		
+		return sb.toString();
+	}
 }
