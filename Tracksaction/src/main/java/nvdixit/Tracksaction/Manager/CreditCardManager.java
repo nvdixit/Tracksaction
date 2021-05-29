@@ -13,14 +13,38 @@ import nvdixit.Tracksaction.Transaction.Transaction;
  */
 public class CreditCardManager {
 
+	/** The name of the CCM*/
+	private String name;
 	/** All credit cards the user has */
 	private ArrayList<CreditCard> creditCards;
 	
 	/**
 	 * Constructs a new CreditCardManager
 	 */
-	public CreditCardManager() {
+	public CreditCardManager(String name) {
+		this.setName(name);
 		creditCards = new ArrayList<CreditCard>();
+	}
+	
+	/**
+	 * Dummy constructor for MongoDB
+	 */
+	public CreditCardManager() {}
+	
+	/**
+	 * Sets the CCM's name
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Returns the CCM's name
+	 * @return the CCM's name
+	 */
+	public String getName() {
+		return this.name;
 	}
 	
 	/**
@@ -81,6 +105,18 @@ public class CreditCardManager {
 		return null;
 	}
 	
+	/**
+	 * Returns the CreditCards in the manager
+	 * @return the CreditCards in the manager
+	 */
+	public ArrayList<CreditCard> getCreditCards() {
+		return this.creditCards;
+	}
+	
+	/**
+	 * Returns a String of the CCM
+	 * @return a String of the CCM
+	 */
 	public String toString() {
 		Iterator<CreditCard> it = creditCards.iterator();
 		

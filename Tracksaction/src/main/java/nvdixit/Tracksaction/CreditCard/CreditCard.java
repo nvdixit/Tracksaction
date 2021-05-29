@@ -27,6 +27,11 @@ public class CreditCard {
 	}
 	
 	/**
+	 * Empty dummy constructor for MongoDB use
+	 */
+	public CreditCard(){}
+	
+	/**
 	 * Sets the name of the CC
 	 * @param name the name to set
 	 */
@@ -72,6 +77,14 @@ public class CreditCard {
 		return null;
 	}
 
+	/**
+	 * Returns the Transactions on the card
+	 * @return the Transactions on the card
+	 */
+	public ArrayList<Transaction> getTransactions() {
+		return this.transactions;
+	}
+	
 	/**
 	 * Returns a String instance of the CreditCard
 	 * @return a String instance of the CreditCard

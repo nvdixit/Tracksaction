@@ -1,27 +1,19 @@
 package nvdixit.Tracksaction.main;
 
-import java.time.LocalDate;
-
 import nvdixit.Tracksaction.CreditCard.CreditCard;
 import nvdixit.Tracksaction.Manager.CreditCardManager;
 import nvdixit.Tracksaction.Transaction.Transaction;
 
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoClient;
-import com.mongodb.MongoClientSettings;
-
-
-import com.mongodb.ConnectionString;
-import com.mongodb.ServerAddress;
-import com.mongodb.MongoCredential;
-import com.mongodb.MongoClientSettings;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		
-		CreditCardManager manager = new CreditCardManager();
+		CreditCardManager manager = new CreditCardManager("ManagerOne");
 		
 		CreditCard cardOne = new CreditCard("American Express");
 		CreditCard cardTwo = new CreditCard("Visa");
@@ -44,7 +36,36 @@ public class Main {
 		manager.addCreditCard(cardOne);
 		manager.addCreditCard(cardTwo);
 		
+		try {			
+			Connection dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "password");
 		
+			
+			
+			dbConnection.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

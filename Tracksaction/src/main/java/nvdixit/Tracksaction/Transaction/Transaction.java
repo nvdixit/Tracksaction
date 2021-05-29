@@ -1,7 +1,5 @@
 package nvdixit.Tracksaction.Transaction;
 
-import java.time.LocalDate;
-
 /**
  * An individual transaction on a credit card
  * @author nikhildixit
@@ -18,6 +16,11 @@ public class Transaction implements Comparable<Transaction> {
 		this.setName(name);
 		this.setAmount(amount);
 	}
+	
+	/**
+	 * Empty dummy constructor for MongoDB use
+	 */
+	public Transaction() {}
 	
 	/**
 	 * Returns the name of the transaction
