@@ -27,11 +27,6 @@ public class CreditCardManager {
 	}
 	
 	/**
-	 * Dummy constructor for MongoDB
-	 */
-	public CreditCardManager() {}
-	
-	/**
 	 * Sets the CCM's name
 	 * @param name the name to set
 	 */

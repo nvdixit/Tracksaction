@@ -1,6 +1,7 @@
 package nvdixit.Tracksaction.main;
 
 import nvdixit.Tracksaction.CreditCard.CreditCard;
+import nvdixit.Tracksaction.DBManager.DBManager;
 import nvdixit.Tracksaction.Manager.CreditCardManager;
 import nvdixit.Tracksaction.Transaction.Transaction;
 
@@ -37,9 +38,7 @@ public class Main {
 		manager.addCreditCard(cardTwo);
 		
 		try {			
-			Connection dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "password");
-		
-			
+			Connection dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 			
 			dbConnection.close();
 			

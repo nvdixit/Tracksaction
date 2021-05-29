@@ -18,11 +18,6 @@ public class Transaction implements Comparable<Transaction> {
 	}
 	
 	/**
-	 * Empty dummy constructor for MongoDB use
-	 */
-	public Transaction() {}
-	
-	/**
 	 * Returns the name of the transaction
 	 * @return the name of the transaction
 	 */

@@ -27,11 +27,6 @@ public class CreditCard {
 	}
 	
 	/**
-	 * Empty dummy constructor for MongoDB use
-	 */
-	public CreditCard(){}
-	
-	/**
 	 * Sets the name of the CC
 	 * @param name the name to set
 	 */
