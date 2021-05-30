@@ -12,6 +12,8 @@ import nvdixit.Tracksaction.Transaction.*;
  */
 public class CreditCard {
 	
+	/** The backend ID number of the CC*/
+	private int id;
 	/** The name of the Credit Card */
 	private String name;
 	/** The Transactions on the Credit Card */
@@ -21,8 +23,9 @@ public class CreditCard {
 	 * Constructs a new CreditCard
 	 * @param name the CreditCard's name
 	 */
-	public CreditCard(String name) {
+	public CreditCard(String name, int id) {
 		this.setName(name);
+		this.setID(id);
 		transactions = new ArrayList<Transaction>();
 	}
 	
@@ -48,6 +51,23 @@ public class CreditCard {
 	 */
 	public void addTransaction(Transaction transaction) {
 		transactions.add(transaction);
+		transaction.setCCID(this.getID());
+	}
+	
+	/**
+	 * Sets the ID num
+	 * @param num the ID to set
+	 */
+	public void setID(int num) {
+		this.id = num;
+	}
+	
+	/**
+	 * Returns the CCID num
+	 * @return the CCID num
+	 */
+	public int getID() {
+		return this.id;
 	}
 	
 	/**

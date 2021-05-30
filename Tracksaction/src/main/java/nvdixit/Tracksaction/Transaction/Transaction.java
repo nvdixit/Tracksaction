@@ -11,6 +11,8 @@ public class Transaction implements Comparable<Transaction> {
 	private String name;
 	/** The amount of the transaction */
 	private double amount;
+	/** The ID number of the CreditCard the Transaction is on*/
+	private int creditCardIDNum;
 
 	public Transaction(String name, double amount) {
 		this.setName(name);
@@ -49,6 +51,21 @@ public class Transaction implements Comparable<Transaction> {
 		this.amount = amount;
 	}
 	
+	/**
+	 * Returns the ID number of the CC the transaction belongs to 
+	 * @return the ID number of the CC the transaction belongs to 
+	 */
+	public int CCID() {
+		return this.creditCardIDNum;
+	}
+	
+	/**
+	 * Sets the CCID
+	 * @param num the CCID
+	 */
+	public void setCCID(int num) {
+		this.creditCardIDNum = num;
+	}
 	
 	@Override
 	public int compareTo(Transaction o) {

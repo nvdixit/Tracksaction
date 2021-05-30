@@ -13,33 +13,14 @@ import nvdixit.Tracksaction.Transaction.Transaction;
  */
 public class CreditCardManager {
 
-	/** The name of the CCM*/
-	private String name;
 	/** All credit cards the user has */
 	private ArrayList<CreditCard> creditCards;
 	
 	/**
 	 * Constructs a new CreditCardManager
 	 */
-	public CreditCardManager(String name) {
-		this.setName(name);
+	public CreditCardManager() {
 		creditCards = new ArrayList<CreditCard>();
-	}
-	
-	/**
-	 * Sets the CCM's name
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * Returns the CCM's name
-	 * @return the CCM's name
-	 */
-	public String getName() {
-		return this.name;
 	}
 	
 	/**
@@ -77,8 +58,16 @@ public class CreditCardManager {
 	 * @param card the card to add to 
 	 * @param transaction the transaction to add
 	 */
-	public void addTransactionToCard(CreditCard card, Transaction transaction) {
-		card.addTransaction(transaction);
+	public void addTransactionToCard(int id, Transaction transaction) {
+		Iterator<CreditCard> it = creditCards.iterator();
+		
+		while(it.hasNext()) {
+			CreditCard c = it.next();
+			
+			if(id == c.getID()) {
+				c.addTransaction(transaction);
+			}
+		}
 	}
 	
 	/**
@@ -86,13 +75,13 @@ public class CreditCardManager {
 	 * @param card the CC to remove from
 	 * @param transaction the transaction to remove
 	 */
-	public Transaction removeTransactionFromCard(CreditCard card, Transaction transaction) {
+	public Transaction removeTransactionFromCard(int id, Transaction transaction) {
 		Iterator<CreditCard> it = creditCards.iterator();
 		
 		while(it.hasNext()) {
 			CreditCard c = it.next();
 			
-			if(card.equals(c)) {
+			if(id == c.getID()) {
 				return c.removeTransaction(transaction);
 			}
 		}
