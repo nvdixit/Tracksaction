@@ -40,6 +40,8 @@ public class Main {
 		try {			
 			Connection dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 			
+			
+			
 			CreditCardManager manager = DBManager.readDatabase(dbConnection);
 			System.out.println(manager.toString());
 			
