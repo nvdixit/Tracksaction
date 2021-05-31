@@ -12,12 +12,12 @@ import java.sql.Statement;
 
 public class Main {
 
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-//		CreditCardManager manager = new CreditCardManager("ManagerOne");
+//		CreditCardManager manager = new CreditCardManager();
 //		
-//		CreditCard cardOne = new CreditCard("American Express");
-//		CreditCard cardTwo = new CreditCard("Visa");
+//		CreditCard cardOne = new CreditCard(1, "American Express");
+//		CreditCard cardTwo = new CreditCard(2, "Visa");
 //		
 //		Transaction t1 = new Transaction("Rent", 2000.00);
 //		Transaction t2 = new Transaction("Gas", 50.00);
@@ -26,30 +26,19 @@ public class Main {
 //		Transaction t5 = new Transaction("Vacation", 5000.00);
 //		Transaction t6 = new Transaction("House", 400000.00);
 //		
-//		cardOne.addTransaction(t1);
-//		cardOne.addTransaction(t2);
-//		cardOne.addTransaction(t3);
+//		cardOne.addTransaction(t1, true);
+//		cardOne.addTransaction(t2, true);
+//		cardOne.addTransaction(t3, true);
 //		
-//		cardTwo.addTransaction(t4);
-//		cardTwo.addTransaction(t5);
-//		cardTwo.addTransaction(t6);
+//		cardTwo.addTransaction(t4, true);
+//		cardTwo.addTransaction(t5, true);
+//		cardTwo.addTransaction(t6, true);
 //	
-//		manager.addCreditCard(cardOne);
-//		manager.addCreditCard(cardTwo);
+//		manager.addCreditCard(cardOne, true);
+//		manager.addCreditCard(cardTwo, true);
 		
-		try {			
-			Connection dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
-			
-			
-			
-			CreditCardManager manager = DBManager.readDatabase(dbConnection);
-			System.out.println(manager.toString());
-			
-			dbConnection.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		CreditCardManager manager = DBManager.readDatabase();		
+		System.out.println(manager.toString());			
 	}
 }
 

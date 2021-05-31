@@ -1,11 +1,10 @@
 package nvdixit.Tracksaction.DBManager;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import nvdixit.Tracksaction.CreditCard.CreditCard;
 import nvdixit.Tracksaction.Manager.CreditCardManager;
@@ -17,35 +16,21 @@ import nvdixit.Tracksaction.Transaction.Transaction;
  *
  */
 public class DBManager {
-
+	
 	/**
 	 * Inserts a Transaction into the DB
 	 * @param connection the Connection to the DB
 	 * @param t the Transaction to insert
 	 * @throws SQLException error
 	 */
-	public static void insertIntoTransactions(Connection connection, Transaction transaction) throws SQLException {
+	public static void insertIntoTransactions(Transaction transaction) throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 		Statement statement = connection.createStatement();
-		String action = "INSERT INTO Transactions (name, amount) " + "VALUES ('" + transaction.getName() + "'," + transaction.getAmount() + ")";
+		String action = "INSERT INTO Transactions (name, amount, cc_id) " + "VALUES ('" + transaction.getName() + "'," + transaction.getAmount() + ", " + transaction.CCID() + ")";
 		statement.execute(action);
-	}
-	
-	/**
-	 * Inserts multiple Transactions into the DB
-	 * @param connection the connection to the DB
-	 * @param transactions the transactions to insert
-	 * @throws SQLException error
-	 */
-	public static void insertIntoTransactions(Connection connection, ArrayList<Transaction> transactions) throws SQLException {
-		Statement statement = connection.createStatement();
 		
-		Iterator<Transaction> it = transactions.iterator();
-		
-		while(it.hasNext()) {
-			Transaction t = it.next();
-			String action = "INSERT INTO Transactions (name, amount) " + "VALUES ('" + t.getName() + "'," + t.getAmount() + ")";
-			statement.execute(action);
-		}
+		statement.close();
+		connection.close();
 	}
 	
 	/**
@@ -54,9 +39,9 @@ public class DBManager {
 	 * @param transaction the transaction to delete
 	 * @throws SQLException error
 	 */
-	public static void deleteTransaction(Connection connection, Transaction transaction) throws SQLException {
+	public static void deleteTransaction(Transaction transaction) throws SQLException {		
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 		Statement statement = connection.createStatement();
-		
 		String action = "DELETE FROM Transactions WHERE name='" + transaction.getName() + "' AND amount=" + transaction.getAmount() + ";";
 		statement.execute(action);
 	}
@@ -67,10 +52,45 @@ public class DBManager {
 	 * @param card the card to insert
 	 * @throws SQLException error
 	 */
-	public static void insertCreditCard(Connection connection, CreditCard card) throws SQLException {
+	public static void insertCreditCard(CreditCard card) throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 		Statement statement = connection.createStatement();
-		String action = "INSERT INTO Credit_Cards (name) " + "VALUES ('" + card.getName() + "')";
+		String action = "INSERT INTO Credit_Cards (id, name) " + "VALUES(" + card.getID() + ", '" + card.getName() + "')";
 		statement.execute(action);
+		
+		statement.close();
+		connection.close();
+	}
+	
+	/**
+	 * Returns the highest index value of any entry in the Credit_Cards table
+	 * @return the highest index value of any entry in the Credit_Cards table
+	 * @throws SQLException 
+	 */
+	public static int getHigestCCIndex() throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+		Statement statement = connection.createStatement();
+		String action = "SELECT MAX(id) from Credit_Cards;";
+		
+		ResultSet results = statement.executeQuery(action);
+		results.next();
+		
+		return results.getInt("MAX(id)");
+	}
+	
+	/**
+	 * Deletes a CC from the DB
+	 * @param card the card to delete
+	 * @throws SQLException 
+	 */
+	public static void deleteCreditCard(CreditCard card) throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+		Statement statement = connection.createStatement();
+		String action = "DELETE FROM Transactions WHERE name='" + card.getName() + "' AND id=" + card.getID() + ";";
+		statement.execute(action);
+		
+		statement.close();
+		connection.close();
 	}
 	
 	/**
@@ -79,17 +99,18 @@ public class DBManager {
 	 * @return the new CreditCardManager
 	 * @throws SQLException 
 	 */
-	public static CreditCardManager readDatabase(Connection connection) throws SQLException {
-		Statement statement = connection.createStatement();
+	public static CreditCardManager readDatabase() throws SQLException {
 		CreditCardManager manager = new CreditCardManager();
-
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+		Statement statement = connection.createStatement();
+		
 		ResultSet results = statement.executeQuery("SELECT * FROM Credit_Cards");		
 		while(results.next()) {
 			String name = results.getString("name");
 			int id = results.getInt("id");
 			
-			CreditCard card = new CreditCard(name, id);
-			manager.addCreditCard(card);
+			CreditCard card = new CreditCard(id, name);
+			manager.addCreditCard(card, false);
 		}
 		
 		results = statement.executeQuery("SELECT * FROM Transactions");		
@@ -99,8 +120,11 @@ public class DBManager {
 			int ccid = results.getInt("cc_id");
 			
 			Transaction transaction = new Transaction(name, amount);
-			manager.addTransactionToCard(ccid, transaction);
+			manager.addTransactionToCard(ccid, transaction, false);
 		}
+		
+		statement.close();
+		connection.close();
 		
 		return manager;
 	}

@@ -1,8 +1,10 @@
 package nvdixit.Tracksaction.CreditCard;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import nvdixit.Tracksaction.DBManager.DBManager;
 import nvdixit.Tracksaction.Transaction.*;
 
 /**
@@ -23,7 +25,7 @@ public class CreditCard {
 	 * Constructs a new CreditCard
 	 * @param name the CreditCard's name
 	 */
-	public CreditCard(String name, int id) {
+	public CreditCard(int id, String name) {
 		this.setName(name);
 		this.setID(id);
 		transactions = new ArrayList<Transaction>();
@@ -48,10 +50,14 @@ public class CreditCard {
 	/**
 	 * Adds a transaction to the CC
 	 * @param transaction the transaction to add
+	 * @throws SQLException 
 	 */
-	public void addTransaction(Transaction transaction) {
+	public void addTransaction(Transaction transaction, boolean addToDB) throws SQLException {
 		transactions.add(transaction);
 		transaction.setCCID(this.getID());
+		
+		if(addToDB)
+			DBManager.insertIntoTransactions(transaction);
 	}
 	
 	/**
@@ -74,8 +80,9 @@ public class CreditCard {
 	 * Removes a Transaction from the CC
 	 * @param transaction the Transaction to remove
 	 * @return the removed Transaction
+	 * @throws SQLException 
 	 */
-	public Transaction removeTransaction(Transaction transaction) {
+	public Transaction removeTransaction(Transaction transaction) throws SQLException {
 		Iterator<Transaction> it = transactions.iterator();
 		
 		int index = 0;
@@ -83,6 +90,7 @@ public class CreditCard {
 			Transaction t = it.next();
 			
 			if(t.equals(transaction)) {
+				DBManager.deleteTransaction(transaction);
 				return transactions.remove(index);
 			}
 			

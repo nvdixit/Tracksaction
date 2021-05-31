@@ -1,9 +1,11 @@
 package nvdixit.Tracksaction.Manager;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import nvdixit.Tracksaction.CreditCard.CreditCard;
+import nvdixit.Tracksaction.DBManager.DBManager;
 import nvdixit.Tracksaction.Transaction.Transaction;
 
 /**
@@ -26,9 +28,13 @@ public class CreditCardManager {
 	/**
 	 * Adds a CreditCard to the manager
 	 * @param card the card to add
+	 * @throws SQLException 
 	 */
-	public void addCreditCard(CreditCard card) {
+	public void addCreditCard(CreditCard card, boolean writeToDB) throws SQLException {
 		creditCards.add(card);
+		
+		if(writeToDB)
+			DBManager.insertCreditCard(card);
 	}
 	
 	/**
@@ -57,15 +63,16 @@ public class CreditCardManager {
 	 * Adds a Transaction to the given CreditCard
 	 * @param card the card to add to 
 	 * @param transaction the transaction to add
+	 * @throws SQLException 
 	 */
-	public void addTransactionToCard(int id, Transaction transaction) {
+	public void addTransactionToCard(int id, Transaction transaction, boolean addToDB) throws SQLException {
 		Iterator<CreditCard> it = creditCards.iterator();
 		
 		while(it.hasNext()) {
 			CreditCard c = it.next();
 			
 			if(id == c.getID()) {
-				c.addTransaction(transaction);
+				c.addTransaction(transaction, addToDB);
 			}
 		}
 	}
@@ -74,8 +81,9 @@ public class CreditCardManager {
 	 * Removes a Transaction from the given CC
 	 * @param card the CC to remove from
 	 * @param transaction the transaction to remove
+	 * @throws SQLException 
 	 */
-	public Transaction removeTransactionFromCard(int id, Transaction transaction) {
+	public Transaction removeTransactionFromCard(int id, Transaction transaction) throws SQLException {
 		Iterator<CreditCard> it = creditCards.iterator();
 		
 		while(it.hasNext()) {
