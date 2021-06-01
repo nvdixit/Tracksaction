@@ -1,0 +1,14 @@
+#AddButton {
+    color:black;
+    background-color: white;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 15pt;
+
+    margin-top: 15px;
+}
+
+#AddButton:hover {
+    cursor: pointer;
+}
