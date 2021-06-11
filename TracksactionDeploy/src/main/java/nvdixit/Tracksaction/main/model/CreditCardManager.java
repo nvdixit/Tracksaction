@@ -1,12 +1,8 @@
-package nvdixit.Tracksaction.Manager;
+package nvdixit.Tracksaction.main.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import nvdixit.Tracksaction.CreditCard.CreditCard;
-import nvdixit.Tracksaction.DBManager.DBManager;
-import nvdixit.Tracksaction.Transaction.Transaction;
 
 /**
  * Manages all CreditCards

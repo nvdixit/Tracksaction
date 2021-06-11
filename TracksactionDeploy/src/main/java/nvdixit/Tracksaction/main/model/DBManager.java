@@ -1,4 +1,4 @@
-package nvdixit.Tracksaction.DBManager;
+package nvdixit.Tracksaction.main.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,15 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import nvdixit.Tracksaction.CreditCard.CreditCard;
-import nvdixit.Tracksaction.Manager.CreditCardManager;
-import nvdixit.Tracksaction.Transaction.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Handles writing all user data into the Database
  * @author nikhildixit
  *
  */
+@RestController
+@RequestMapping("localhost:8080")
 public class DBManager {
 	
 	/**
@@ -23,7 +28,7 @@ public class DBManager {
 	 * @param t the Transaction to insert
 	 * @throws SQLException error
 	 */
-	public static void insertIntoTransactions(Transaction transaction) throws SQLException {
+	public static void insertTransaction(@RequestBody Transaction transaction) throws SQLException {
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 		Statement statement = connection.createStatement();
 		String action = "INSERT INTO Transactions (name, amount, cc_id) " + "VALUES ('" + transaction.getName() + "'," + transaction.getAmount() + ", " + transaction.CCID() + ")";
@@ -99,6 +104,7 @@ public class DBManager {
 	 * @return the new CreditCardManager
 	 * @throws SQLException 
 	 */
+	@GetMapping
 	public static CreditCardManager readDatabase() throws SQLException {
 		CreditCardManager manager = new CreditCardManager();
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
@@ -125,7 +131,7 @@ public class DBManager {
 		
 		statement.close();
 		connection.close();
-		
+				
 		return manager;
 	}
 	

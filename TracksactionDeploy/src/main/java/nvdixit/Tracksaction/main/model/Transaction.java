@@ -1,4 +1,6 @@
-package nvdixit.Tracksaction.Transaction;
+package nvdixit.Tracksaction.main.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * An individual transaction on a credit card
@@ -14,9 +16,9 @@ public class Transaction implements Comparable<Transaction> {
 	/** The ID number of the CreditCard the Transaction is on*/
 	private int creditCardIDNum;
 
-	public Transaction(String name, double amount) {
+	public Transaction(@JsonProperty("name") String name, double amount) {
 		this.setName(name);
-		this.setAmount(amount);
+		this.setAmount(0.00);
 	}
 	
 	/**

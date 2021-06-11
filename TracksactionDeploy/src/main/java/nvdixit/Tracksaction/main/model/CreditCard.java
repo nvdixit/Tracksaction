@@ -1,11 +1,10 @@
-package nvdixit.Tracksaction.CreditCard;
+package nvdixit.Tracksaction.main.model;
 
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import nvdixit.Tracksaction.DBManager.DBManager;
-import nvdixit.Tracksaction.Transaction.*;
 
 /**
  * Credit Card that holds Transactions
@@ -57,7 +56,7 @@ public class CreditCard {
 		transaction.setCCID(this.getID());
 		
 		if(addToDB)
-			DBManager.insertIntoTransactions(transaction);
+			DBManager.insertTransaction(transaction);
 	}
 	
 	/**
