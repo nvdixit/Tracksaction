@@ -1,10 +1,12 @@
 package nvdixit.demo.model;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import nvdixit.demo.database.DBManager;
 import nvdixit.demo.filestore.FileStore;
 
 @Service
@@ -24,6 +26,10 @@ public class TransactionService {
 	}
 
 	public void uploadTransaction(String name, double amount) {
-		System.out.println("Name: " + name);
+		try {
+			DBManager.insertTransaction(new Transaction(name, 0.0));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
