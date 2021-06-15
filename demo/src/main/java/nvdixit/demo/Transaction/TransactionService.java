@@ -1,4 +1,4 @@
-package nvdixit.demo.model;
+package nvdixit.demo.Transaction;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,12 +13,10 @@ import nvdixit.demo.filestore.FileStore;
 public class TransactionService {
 	
 	private final TransactionDataAccessService transactionDataAccessService;
-	private final FileStore fileStore;
 	
 	@Autowired
-	public TransactionService(TransactionDataAccessService transactionDataAccessService, FileStore fileStore) {
+	public TransactionService(TransactionDataAccessService transactionDataAccessService) {
 		this.transactionDataAccessService = transactionDataAccessService;
-		this.fileStore = fileStore;
 	}
 	
 	List<Transaction> getTransactions() {
@@ -27,7 +25,7 @@ public class TransactionService {
 
 	public void uploadTransaction(String name, double amount) {
 		try {
-			DBManager.insertTransaction(new Transaction(name, 0.0));
+			DBManager.insertTransaction(new Transaction(name, amount));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

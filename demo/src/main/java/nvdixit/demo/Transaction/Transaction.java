@@ -1,4 +1,4 @@
-package nvdixit.demo.model;
+package nvdixit.demo.Transaction;
 
 import org.springframework.stereotype.Component;
 

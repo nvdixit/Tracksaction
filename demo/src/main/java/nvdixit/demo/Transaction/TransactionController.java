@@ -1,4 +1,4 @@
-package nvdixit.demo.model;
+package nvdixit.demo.Transaction;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class TransactionController {
 	}
 	
 	@PostMapping(path = "{transactionName}/transaction/upload")
-	public void uploadTransaction(@RequestParam("name") String name) {
-		transactionService.uploadTransaction(name, 0.0);
+	public void uploadTransaction(@RequestParam("name") String name, @RequestParam("amount") double amount) {
+		transactionService.uploadTransaction(name, amount);
 	}
 }

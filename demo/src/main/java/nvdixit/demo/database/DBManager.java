@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nvdixit.demo.model.Transaction;
+import nvdixit.demo.CreditCard.CreditCard;
+import nvdixit.demo.Transaction.Transaction;
 
 /**
  * Handles writing all user data into the Database
@@ -51,53 +53,108 @@ public class DBManager {
 		statement.execute(action);
 	}
 	
-//	/**
-//	 * Inserts a CreditCard into the Database
-//	 * @param connection the connection to the DB
-//	 * @param card the card to insert
-//	 * @throws SQLException error
-//	 */
-//	public static void insertCreditCard(CreditCard card) throws SQLException {
-//		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
-//		Statement statement = connection.createStatement();
-//		String action = "INSERT INTO Credit_Cards (id, name) " + "VALUES(" + card.getID() + ", '" + card.getName() + "')";
-//		statement.execute(action);
-//		
-//		statement.close();
-//		connection.close();
-//	}
-//	
-//	/**
-//	 * Returns the highest index value of any entry in the Credit_Cards table
-//	 * @return the highest index value of any entry in the Credit_Cards table
-//	 * @throws SQLException 
-//	 */
-//	public static int getHigestCCIndex() throws SQLException {
-//		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
-//		Statement statement = connection.createStatement();
-//		String action = "SELECT MAX(id) from Credit_Cards;";
-//		
-//		ResultSet results = statement.executeQuery(action);
-//		results.next();
-//		
-//		return results.getInt("MAX(id)");
-//	}
-//	
-//	/**
-//	 * Deletes a CC from the DB
-//	 * @param card the card to delete
-//	 * @throws SQLException 
-//	 */
-//	public static void deleteCreditCard(CreditCard card) throws SQLException {
-//		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
-//		Statement statement = connection.createStatement();
-//		String action = "DELETE FROM Transactions WHERE name='" + card.getName() + "' AND id=" + card.getID() + ";";
-//		statement.execute(action);
-//		
-//		statement.close();
-//		connection.close();
-//	}
-//	
+	public static ArrayList<Transaction> getAllTransactions(int ccid) {
+		Connection connection;
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+			Statement statement = connection.createStatement();
+			String action = "SELECT * FROM Transactions";
+			ResultSet results = statement.executeQuery(action);
+			
+			while(results.next()) {
+				String name = results.getString("name");
+				double amount = results.getDouble("amount");
+				int ccNum = results.getInt("cc_id");
+				
+				if(ccid == ccNum) {
+					Transaction transaction = new Transaction(name, amount);
+					transactions.add(transaction);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+		return transactions;
+	}
+	
+	public static ArrayList<CreditCard> getAllCreditCards() {
+		Connection connection;
+		ArrayList<CreditCard> creditCards = new ArrayList<CreditCard>();
+		
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+			Statement statement = connection.createStatement();
+			String action = "SELECT * FROM Credit_cards;";
+			ResultSet results = statement.executeQuery(action);
+			
+			while(results.next()) {
+				String name = results.getString("name");
+				int id = results.getInt("id");
+				
+				CreditCard creditCard = new CreditCard(id, name);
+				creditCards.add(creditCard);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+		return creditCards;
+	}
+	
+	/**
+	 * Inserts a CreditCard into the Database
+	 * @param connection the connection to the DB
+	 * @param card the card to insert
+	 * @throws SQLException error
+	 */
+	public static void insertCreditCard(CreditCard card) throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+		Statement statement = connection.createStatement();
+		String action = "INSERT INTO Credit_Cards (id, name) " + "VALUES(" + card.getID() + ", '" + card.getName() + "')";
+		statement.execute(action);
+		
+		statement.close();
+		connection.close();
+	}
+	
+	/**
+	 * Returns the highest index value of any entry in the Credit_Cards table
+	 * @return the highest index value of any entry in the Credit_Cards table
+	 * @throws SQLException 
+	 */
+	public static int getHigestCCIndex() throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+		Statement statement = connection.createStatement();
+		String action = "SELECT MAX(id) from Credit_Cards;";
+		
+		ResultSet results = statement.executeQuery(action);
+		results.next();
+		
+		return results.getInt("MAX(id)");
+	}
+
+	/**
+	 * Deletes a CC from the DB
+	 * @param card the card to delete
+	 * @throws SQLException 
+	 */
+	public static void deleteCreditCard(CreditCard card) throws SQLException {
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+		Statement statement = connection.createStatement();
+		String action = "DELETE FROM Transactions WHERE name='" + card.getName() + "' AND id=" + card.getID() + ";";
+		statement.execute(action);
+		
+		statement.close();
+		connection.close();
+	}
+
 //	/**
 //	 * Reads in all data from the database and populates interim objects
 //	 * @param connection the connection to the db
