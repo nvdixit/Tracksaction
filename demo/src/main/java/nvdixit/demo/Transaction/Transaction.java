@@ -16,9 +16,10 @@ public class Transaction implements Comparable<Transaction> {
 	/** The ID number of the CreditCard the Transaction is on*/
 	private int creditCardIDNum;
 
-	public Transaction(String name, double amount) {
+	public Transaction(String name, double amount, int creditCardIDNum) {
 		this.setName(name);
 		this.setAmount(amount);
+		this.setCCID(creditCardIDNum);
 	}
 	
 	/**

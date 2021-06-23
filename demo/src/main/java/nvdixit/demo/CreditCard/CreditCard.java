@@ -92,7 +92,7 @@ public class CreditCard {
 			Transaction t = it.next();
 			
 			if(t.equals(transaction)) {
-				DBManager.deleteTransaction(transaction);
+				//DBManager.deleteTransaction(transaction);
 				return transactions.remove(index);
 			}
 			

@@ -18,7 +18,7 @@ public class TransactionDataAccessService {
 		this.fakeTransactionDataStore = fakeTransactionDataStore;
 	}
 	
-	List<Transaction> getTransactions() {
-		return this.fakeTransactionDataStore.getTransactions();
+	List<Transaction> getTransactions(int ccid) {
+		return this.fakeTransactionDataStore.getTransactions(ccid);
 	}
 }

@@ -19,13 +19,14 @@ public class TransactionService {
 		this.transactionDataAccessService = transactionDataAccessService;
 	}
 	
-	List<Transaction> getTransactions() {
-		return this.transactionDataAccessService.getTransactions();
+	List<Transaction> getTransactions(int ccid) {
+		return this.transactionDataAccessService.getTransactions(ccid);
 	}
 
-	public void uploadTransaction(String name, double amount) {
+	public void uploadTransaction(String name, double amount, int ccid) {
+		System.out.println(ccid);
 		try {
-			DBManager.insertTransaction(new Transaction(name, amount));
+			DBManager.insertTransaction(new Transaction(name, amount, ccid));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

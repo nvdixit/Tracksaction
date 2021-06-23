@@ -46,10 +46,10 @@ public class DBManager {
 	 * @param transaction the transaction to delete
 	 * @throws SQLException error
 	 */
-	public static void deleteTransaction(Transaction transaction) throws SQLException {		
+	public static void deleteTransaction(String name, double amount) throws SQLException {		
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 		Statement statement = connection.createStatement();
-		String action = "DELETE FROM Transactions WHERE name='" + transaction.getName() + "' AND amount=" + transaction.getAmount() + ";";
+		String action = "DELETE FROM Transactions WHERE name='" + name + "' AND amount=" + amount + ";";
 		statement.execute(action);
 	}
 	
@@ -69,7 +69,7 @@ public class DBManager {
 				int ccNum = results.getInt("cc_id");
 				
 				if(ccid == ccNum) {
-					Transaction transaction = new Transaction(name, amount);
+					Transaction transaction = new Transaction(name, amount, ccNum);
 					transactions.add(transaction);
 				}
 			}

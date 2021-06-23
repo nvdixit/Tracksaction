@@ -11,13 +11,10 @@ import nvdixit.demo.database.DBManager;
 
 @Repository
 public class FakeTransactionDataStore {
-	private static final List<Transaction> TRANSACTIONS = new ArrayList<Transaction>();
+	private static List<Transaction> TRANSACTIONS = new ArrayList<Transaction>();
 	
-	static {
-		TRANSACTIONS.addAll(0, DBManager.getAllTransactions(1));
-	}
-	
-	public List<Transaction> getTransactions() {
+	public List<Transaction> getTransactions(int ccid) {
+		TRANSACTIONS = DBManager.getAllTransactions(ccid);
 		return TRANSACTIONS;
 	}
 }
