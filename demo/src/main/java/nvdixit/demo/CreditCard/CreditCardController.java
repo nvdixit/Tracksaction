@@ -29,13 +29,22 @@ public class CreditCardController {
 	
 	@GetMapping
 	public List<CreditCard> getCreditCards() {
-		return creditCardService.getCreditCards();
+		return DBManager.getAllCreditCards();
 	}
 	
 	@PostMapping(path = "{creditCardName}/creditCard/upload")
-	public void uploadTransaction(@RequestParam("name") String name) {
+	public void uploadCreditCard(@RequestParam("name") String name) {
 		try {
 			creditCardService.uploadCreditCard(DBManager.getHigestCCIndex() + 1, name);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@PostMapping(path = "creditCard/delete")
+	public void deleteCreditCard(@RequestParam("id") int id, @RequestParam("name") String name) {
+		try {
+			DBManager.deleteCreditCard(id, name);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

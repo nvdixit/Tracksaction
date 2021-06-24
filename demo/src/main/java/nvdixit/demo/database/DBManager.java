@@ -145,16 +145,32 @@ public class DBManager {
 	 * @param card the card to delete
 	 * @throws SQLException 
 	 */
-	public static void deleteCreditCard(CreditCard card) throws SQLException {
+	public static void deleteCreditCard(int id, String name) throws SQLException {
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
 		Statement statement = connection.createStatement();
-		String action = "DELETE FROM Transactions WHERE name='" + card.getName() + "' AND id=" + card.getID() + ";";
+		String action = "DELETE FROM Credit_cards WHERE name='" + name + "';";
 		statement.execute(action);
 		
 		statement.close();
 		connection.close();
+		
+		deleteTransactionsThroughCard(id);
 	}
 
+	public static void deleteTransactionsThroughCard(int ccid) {
+		Connection connection;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Tracksaction_data", "root", "password");
+			Statement statement = connection.createStatement();
+			String action = "DELETE FROM Transactions WHERE cc_id=" + ccid + ";";
+			statement.execute(action);
+			
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 //	/**
 //	 * Reads in all data from the database and populates interim objects
 //	 * @param connection the connection to the db
