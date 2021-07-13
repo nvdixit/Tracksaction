@@ -1,12 +1,12 @@
-import ContentBox from "./ContentBox/ContentBox"
+import React, { Component } from 'react';
+import CreditCardContainer from './components/CreditCardContainer/CreditCardContainer';
 
-function App() {
-  return (
+export default class App extends Component {
+  render() {
+    return (
       <div>
-          <ContentBox name="Credit Cards" btnName="Add Credit Card" items={["American Express", "Visa", "Chase"]}/>
-          <ContentBox name="Transactions" btnName="Add Transaction" items={["Groceries", "Gas", "Rent"]}/>
+          <CreditCardContainer/>
       </div>
-  );
+    );
+  }
 }
-
-export default App;
